@@ -1,4 +1,4 @@
-package com.busanit.androidchallenge;
+package com.busanit.androidchallenge.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +15,6 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.content.Intent;
 import android.graphics.Paint;
 
-import android.location.Location;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -23,6 +22,10 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.busanit.androidchallenge.Fragment.AttractionFragment;
+import com.busanit.androidchallenge.Fragment.HotelFragment;
+import com.busanit.androidchallenge.R;
+import com.busanit.androidchallenge.Fragment.RestaurantFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // 앱 실행 시 로딩화면
-        Intent intent = new Intent(this, LoadingActivity.class);
+        Intent intent = new Intent(this, SplashActivity.class);
         startActivity(intent);
 
 

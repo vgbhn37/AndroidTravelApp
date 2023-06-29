@@ -1,4 +1,4 @@
-package com.busanit.androidchallenge;
+package com.busanit.androidchallenge.Fragment;
 
 import android.Manifest;
 import android.content.Context;
@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +26,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.busanit.androidchallenge.Activity.InfomationActivity;
+import com.busanit.androidchallenge.BuildConfig;
+import com.busanit.androidchallenge.item;
+import com.busanit.androidchallenge.LoadDialog;
+import com.busanit.androidchallenge.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,7 +51,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class HotelFragment extends Fragment {
+public class RestaurantFragment extends Fragment {
     private TextView textView;
     private Handler handler = new Handler();
     private double lat, lon;
@@ -58,17 +62,17 @@ public class HotelFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_hotel, container, false);
+        ViewGroup rootView = (ViewGroup)  inflater.inflate(R.layout.fragment_restaurant, container, false);
 
-        textView = rootView.findViewById(R.id.hotelText);
-        ImageView location = rootView.findViewById(R.id.hotelLocation);
+        textView = rootView.findViewById(R.id.restaurantText);
+        ImageView location = rootView.findViewById(R.id.restaurantLocation);
 
-        //리싸이클러 뷰 설정
-        RecyclerView hotelRecyclerview = rootView.findViewById(R.id.hotelRecyclerView);
+        //리싸이클러 뷰 세팅
+        RecyclerView restaurantRecyclerView = rootView.findViewById(R.id.restaurantRecyclerView);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
-        hotelRecyclerview.setLayoutManager(manager);
+        restaurantRecyclerView.setLayoutManager(manager);
         adapter = new ItemAdapter();
-        hotelRecyclerview.setAdapter(adapter);
+        restaurantRecyclerView.setAdapter(adapter);
 
         //현재위치 버튼을 눌렀을 때 로딩화면 설정
         loadDialog = new LoadDialog(getContext());
@@ -76,34 +80,32 @@ public class HotelFragment extends Fragment {
         loadImage = loadDialog.findViewById(R.id.loadImage);
         Glide.with(this).load(R.drawable.loadingani).into(loadImage);
 
-
-
         // 상세보기 버튼 눌렀을 때 상세보기 액티비티(InfomationActivity)로
         adapter.setListener(new OnInfoButtonClickListener() {
             @Override
             public void onButtonClick(ItemAdapter.ViewHolder holder, View view, int position) {
-                Item item = adapter.getItem(position);
-                Intent intent = new Intent(getContext(),InfomationActivity.class);
+                item item = adapter.getItem(position);
+                Intent intent = new Intent(getContext(), InfomationActivity.class);
                 intent.putExtra("contentid", item.getContentid());
                 intent.putExtra("contenttypeid",item.getContenttypeid());
                 startActivity(intent);
             }
         });
 
-        //현재위치 버튼을 눌렀을 때 좌표값으로 현재 지역 알아오기, 근처의 숙박업소 정보 알아오기, 로딩화면 5초간 실행
+        //현재위치 버튼 클릭 시
         location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 startLocationService();
-                LoadingThread loadingThread = new LoadingThread();
-                loadingThread.start();
                 GetInfoThread getInfoThread = new GetInfoThread();
                 getInfoThread.start();
                 LocationThread locationThread = new LocationThread();
                 locationThread.start();
-            }
+                LoadingThread loadingThread = new LoadingThread();
+                loadingThread.start();
 
+
+            }
         });
         return rootView;
     }
@@ -128,7 +130,7 @@ public class HotelFragment extends Fragment {
         long minTime = 10000;
         float minDistance = 0;
         manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, listener);
-        Toast.makeText(getContext(), "근처 10km 이내 숙박업소를 찾고있어요.\n10초 정도의 시간이 소요될 수 있어요.", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "근처 10km 이내 음식점을 찾고있어요.\n10초 정도의 시간이 소요될 수 있어요.", Toast.LENGTH_LONG).show();
 
     }
 
@@ -137,29 +139,28 @@ public class HotelFragment extends Fragment {
         public void onLocationChanged(@NonNull Location location) {
             lat = location.getLatitude();
             lon = location.getLongitude();
-
         }
     }
 
-    // 현재 위치를 기반으로 리싸이클러 뷰에 표시할 반경 10km 이내의 숙박업소 정보 가져오기 (한국관광공사 api)
+    // 현재 위치를 기반으로 리싸이클러 뷰에 표시할 반경 10km 이내의 음식점 정보 가져오기 (한국관광공사 api)
     private class GetInfoThread extends Thread{
 
         @Override
         public void run() {
-            ArrayList<Item> items = new ArrayList<>();
-            ArrayList<Item> sortedItems = new ArrayList<>();
+            ArrayList<item> items = new ArrayList<>();
+            ArrayList<item> sortedItems = new ArrayList<>();
             String TRAVEL_API_KEY = BuildConfig.TRAVEL_API_KEY;
 
             StringBuilder urlBuilder = new StringBuilder("https://apis.data.go.kr/B551011/KorService1/locationBasedList1?");
             try {
-                urlBuilder.append(URLEncoder.encode("serviceKey","UTF-8") +"=" + TRAVEL_API_KEY);
-                urlBuilder.append("&numOfRows=3000&pageNo=1&MobileOS=AND&MobileApp=AndroidChallenge&_type=xml&listYN=Y&arrange=O&mapX="+lon+"&mapY="+lat+"&radius=10000&contentTypeId=32");
+                urlBuilder.append(URLEncoder.encode("serviceKey","UTF-8") + "=" + TRAVEL_API_KEY);
+                urlBuilder.append("&numOfRows=3000&pageNo=1&MobileOS=AND&MobileApp=AndroidChallenge&_type=xml&listYN=Y&arrange=O&mapX="+lon+"&mapY="+lat+"&radius=10000&contentTypeId=39");
                 Document document = Jsoup.connect(urlBuilder.toString()).parser(Parser.xmlParser()).get();
                 Elements elements =document.select("item");
                 // 아이템을 가져와서
                 for(int i = 0 ; i < elements.size(); i++){
                     Element element = elements.get(i);
-                    Item item = new Item();
+                    item item = new item();
                     item.setContentid(element.select("contentid").text());
                     item.setDist(element.select("dist").text());
                     item.setFirstimage2(element.select("firstimage2").text());
@@ -179,7 +180,6 @@ public class HotelFragment extends Fragment {
                             sortedItems.add(items.get(j));
                             //거리가 같은 아이템이 있을시 중복출력 방지
                             items.remove(j);
-                            Log.d("myLog","size : " + items.size()+ " j : " + j);
                             break;
                         }
                     }
@@ -210,6 +210,7 @@ public class HotelFragment extends Fragment {
     private class LocationThread extends Thread {
         @Override
         public void run() {
+
             String NAVER_API_KEY = BuildConfig.NAVER_KEY;
             String NAVER_API_KEY_ID = BuildConfig.NAVER_KEY_ID;
 
@@ -222,7 +223,7 @@ public class HotelFragment extends Fragment {
 
                 conn.setRequestMethod("GET");
                 conn.setRequestProperty("X-NCP-APIGW-API-KEY-ID",NAVER_API_KEY_ID);
-                conn.setRequestProperty("X-NCP-APIGW-API-KEY",NAVER_API_KEY);
+                conn.setRequestProperty("X-NCP-APIGW-API-KEY", NAVER_API_KEY);
 
                 BufferedReader rd;
                 if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300){

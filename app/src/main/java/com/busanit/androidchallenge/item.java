@@ -1,6 +1,6 @@
 package com.busanit.androidchallenge;
 
-public class Item {
+public class item {
     String  contentid, firstimage2, dist,  title, contenttypeid;
 
 

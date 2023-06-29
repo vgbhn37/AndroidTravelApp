@@ -1,4 +1,4 @@
-package com.busanit.androidchallenge;
+package com.busanit.androidchallenge.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.busanit.androidchallenge.R;
 
 public class KtoHomeActivity extends AppCompatActivity {
 

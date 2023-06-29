@@ -1,4 +1,4 @@
-package com.busanit.androidchallenge;
+package com.busanit.androidchallenge.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.busanit.androidchallenge.R;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.MapFragment;

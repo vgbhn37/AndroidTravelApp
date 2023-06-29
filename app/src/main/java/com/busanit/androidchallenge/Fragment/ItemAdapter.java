@@ -1,4 +1,4 @@
-package com.busanit.androidchallenge;
+package com.busanit.androidchallenge.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.busanit.androidchallenge.item;
+import com.busanit.androidchallenge.R;
 
 import java.util.ArrayList;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> implements OnInfoButtonClickListener {
 
-    ArrayList<Item> items = new ArrayList<>();
+    ArrayList<item> items = new ArrayList<>();
     OnInfoButtonClickListener listener;
 
     @NonNull
@@ -29,7 +31,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> im
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Item item = items.get(position);
+        item item = items.get(position);
         int pos = position;
         holder.title.setText(item.getTitle());
         holder.distance.setText(item.getDist());
@@ -37,11 +39,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> im
         Glide.with(holder.imageView.getContext()).load(url).fallback(R.drawable.kto).error(R.drawable.kto).into(holder.imageView);
     }
 
-    public void setItems(ArrayList<Item> items) {
+    public void setItems(ArrayList<item> items) {
         this.items = items;
     }
 
-    public Item getItem(int position){
+    public item getItem(int position){
         return items.get(position);
     }
 
@@ -61,7 +63,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> im
         }
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+     class ViewHolder extends RecyclerView.ViewHolder{
         TextView title, distance;
         ImageView imageView;
         Button btnInfo;

@@ -1,4 +1,4 @@
-package com.busanit.androidchallenge;
+package com.busanit.androidchallenge.Activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,7 +6,9 @@ import android.os.Handler;
 
 import androidx.annotation.Nullable;
 
-public class LoadingActivity extends Activity {
+import com.busanit.androidchallenge.R;
+
+public class SplashActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,7 +1,6 @@
-package com.busanit.androidchallenge;
+package com.busanit.androidchallenge.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,7 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.naver.maps.map.MapFragment;
+import com.busanit.androidchallenge.BuildConfig;
+import com.busanit.androidchallenge.LoadDialog;
+import com.busanit.androidchallenge.R;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
